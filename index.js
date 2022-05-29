@@ -2,7 +2,7 @@ const Discord = require("discord.js");
 require("dotenv").config();
 
 const client = new Discord.Client({
-  intents: ["GUILDS", "GUILD_MESSAGES"],
+  intents: ["GUILDS", "GUILD_MESSAGES", "GUILD_MEMBERS"],
 });
 
 client.on("ready", () => {
@@ -13,6 +13,14 @@ client.on("messageCreate", (message) => {
   if (message.content == "Hi") {
     message.reply("Hello World");
   }
+});
+
+const welcomeChannelId = "980289754346176532";
+
+client.on("guildMemberAdd", (member) => {
+  member.guild.channels.cache
+    .get(welcomeChannelId)
+    .send(`<@>{member.id} Welcome to the server!`);
 });
 
 client.login(process.env.TOKEN);
